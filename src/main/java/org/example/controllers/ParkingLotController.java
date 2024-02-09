@@ -1,5 +1,7 @@
 package org.example.controllers;
 
+import org.example.exceptions.CarNotFoundException;
+import org.example.exceptions.ParkingFullException;
 import org.example.models.Car;
 import org.example.models.ParkingLot;
 import org.example.services.ParkingLotService;
@@ -31,19 +33,19 @@ public class ParkingLotController {
             }
         }
     }
-    public void issueTicket(String registrationNumber , String colour) {
+    public void issueTicket(String registrationNumber , String colour) throws ParkingFullException {
         int allocatedSlot = parkingLotService.issueTicket(registrationNumber,colour);
         if(allocatedSlot!=-1){
             System.out.println("Allocated slot number : " + allocatedSlot );
         } else {
-            System.out.println("Sorry..!! Parking Lot is full");
+            throw new ParkingFullException("Sorry..!! Parking Lot is full");
         }
     }
     public void returnTicket(int slotNumber){
         parkingLotService.returnTicket(slotNumber) ;
         System.out.println("Slot Number "+ slotNumber +" is Free!!") ;
     }
-    public void showRegistrationNumbersByColor(String targetColor) {
+    public void showRegistrationNumbersByColor(String targetColor) throws CarNotFoundException {
        parkingLotService.showRegistrationNumbersByColour(targetColor);
     }
 }

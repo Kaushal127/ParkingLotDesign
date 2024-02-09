@@ -2,17 +2,16 @@ package org.example;
 
 
 import org.example.controllers.ParkingLotController;
+import org.example.exceptions.CarNotFoundException;
+import org.example.exceptions.ParkingFullException;
 import org.example.repositories.ParkingLotRepository;
 import org.example.services.ParkingLotService;
 
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
+
         Scanner scan = new Scanner(System.in);
         ParkingLotRepository parkingLotRepository = new ParkingLotRepository();
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotRepository);
@@ -31,7 +30,11 @@ public class Main {
                 case "park":
                     String registrationNumber = input[1];
                     String colour = input[2] ;
-                    parkingLotController.issueTicket(registrationNumber,colour);
+                    try {
+                        parkingLotController.issueTicket(registrationNumber,colour);
+                    } catch (ParkingFullException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case "leave" :
                     int slotNumber = Integer.parseInt(input[1]);
@@ -42,7 +45,11 @@ public class Main {
                     break ;
                 case "registration_numbers_for_cars_with_colour":
                     String targetColor = input[1];
-                    parkingLotController.showRegistrationNumbersByColor(targetColor);
+                    try {
+                        parkingLotController.showRegistrationNumbersByColor(targetColor);
+                    } catch (CarNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case "exit" :
                     System.out.println("Exiting the parking system.");

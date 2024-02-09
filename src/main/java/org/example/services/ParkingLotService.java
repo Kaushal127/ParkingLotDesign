@@ -1,5 +1,6 @@
 package org.example.services;
 
+import org.example.exceptions.CarNotFoundException;
 import org.example.models.Car;
 import org.example.repositories.ParkingLotRepository;
 
@@ -31,7 +32,7 @@ public class ParkingLotService {
         parkingLotRepository.returnTicket(slotNumber);
     }
 
-    public void showRegistrationNumbersByColour(String targetColor) {
+    public void showRegistrationNumbersByColour(String targetColor) throws CarNotFoundException {
         parkingLotRepository.showRegistrationNumbersByColour(targetColor);
     }
 

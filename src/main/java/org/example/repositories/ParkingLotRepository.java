@@ -1,5 +1,6 @@
 package org.example.repositories;
 
+import org.example.exceptions.CarNotFoundException;
 import org.example.models.Car;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ParkingLotRepository {
         return parkingSlots;
     }
 
-    public void showRegistrationNumbersByColour(String targetColor) {
+    public void showRegistrationNumbersByColour(String targetColor) throws CarNotFoundException {
         List<String> matchinRegistrationNumbers = new ArrayList<>();
         for (Car car:parkingSlots.values()){
             if(car!=null && car.getColour().equalsIgnoreCase(targetColor)){
@@ -44,7 +45,7 @@ public class ParkingLotRepository {
             }
         }
         if(matchinRegistrationNumbers.isEmpty()){
-            System.out.println("No cars found with the colour "+targetColor);
+            throw new CarNotFoundException("No cars found with the colour "+targetColor);
         } else {
             String result = String.join(", " , matchinRegistrationNumbers) ;
             System.out.println(result);
